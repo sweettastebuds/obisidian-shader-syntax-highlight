@@ -248,6 +248,14 @@ function tokenizeLine(
         type = classifyHLSLWord(word, state, isCG);
       }
 
+      // Promote unknown identifiers followed by '(' to function calls
+      if (type === "variable") {
+        const rest = line.substring(pos + word.length);
+        if (/^\s*\(/.test(rest)) {
+          type = "function";
+        }
+      }
+
       tokens.push({ start: pos, end: pos + word.length, type });
       pos += word.length;
       continue;

@@ -1,6 +1,6 @@
 {
-  "name": "obsidian-shader-syntax",
-  "version": "1.0.0",
+  "name": "obsidian-shader-syntax-highlight",
+  "version": "1.1.0",
   "description": "Syntax highlighting for HLSL, CG, and ShaderLab shader languages in Obsidian",
   "main": "main.js",
   "scripts": {

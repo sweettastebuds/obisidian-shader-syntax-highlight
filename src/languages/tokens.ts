@@ -28,7 +28,7 @@ export const hlslTypeAliases = wordSet(`typedef`);
 
 /** Storage/structure keywords (storage.type.structured.hlsl) */
 export const hlslStructureKeywords = wordSet(
-  `cbuffer class interface namespace struct tbuffer`
+  `cbuffer class interface namespace struct tbuffer CBUFFER_START CBUFFER_END`
 );
 
 /** Effects framework keywords */
@@ -266,7 +266,7 @@ export const hlslAtoms = wordSet(`true false TRUE FALSE NULL`);
 
 /** ShaderLab block structure keywords (storage.type.structure.shaderlab) */
 export const shaderlabStructureKeywords = wordSet(
-  `Shader Properties SubShader Pass Category`
+  `Shader Properties SubShader Pass Category CBUFFER_START CBUFFER_END`
 );
 
 /** ShaderLab property types (support.type.basic.shaderlab) */
