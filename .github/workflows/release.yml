@@ -60,6 +60,9 @@ jobs:
           echo "manifest.json: $(wc -c < manifest.json) bytes"
           echo "styles.css:    $(wc -c < styles.css) bytes"
 
+      - name: Create zip archive
+        run: zip obsidian-shader-syntax-highlight.zip main.js manifest.json styles.css
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
