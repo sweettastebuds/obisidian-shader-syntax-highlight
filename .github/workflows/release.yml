@@ -1,0 +1,85 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+*" # matches 1.0.0, 1.2.3-beta, etc.
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build production bundle
+        run: npm run build
+
+      - name: Validate tag matches manifest version
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          MANIFEST_VERSION=$(node -p "require('./manifest.json').version")
+          echo "Git tag:          $TAG"
+          echo "Manifest version: $MANIFEST_VERSION"
+          if [ "$TAG" != "$MANIFEST_VERSION" ]; then
+            echo "::error::Tag ($TAG) does not match manifest.json version ($MANIFEST_VERSION)"
+            exit 1
+          fi
+
+      - name: Validate versions.json has this version
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          node -e "
+            const v = require('./versions.json');
+            if (!v['${TAG}']) {
+              console.error('versions.json missing entry for ${TAG}');
+              process.exit(1);
+            }
+            console.log('versions.json OK:', '${TAG}', '→ minApp', v['${TAG}']);
+          "
+
+      - name: Validate build artifacts
+        run: |
+          test -f main.js       || { echo "::error::main.js missing"; exit 1; }
+          test -f manifest.json || { echo "::error::manifest.json missing"; exit 1; }
+          test -f styles.css    || { echo "::error::styles.css missing"; exit 1; }
+          echo "main.js:       $(wc -c < main.js) bytes"
+          echo "manifest.json: $(wc -c < manifest.json) bytes"
+          echo "styles.css:    $(wc -c < styles.css) bytes"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "v${{ github.ref_name }}"
+          body: |
+            ## Shader Syntax Highlighting v${{ github.ref_name }}
+
+            ### Installation
+            1. Download `main.js`, `manifest.json`, and `styles.css` below
+            2. Create `.obsidian/plugins/shader-syntax-highlight/` in your vault
+            3. Place all three files in that directory
+            4. Enable the plugin in Settings → Community Plugins
+
+            ### Supported languages
+            - ` ```hlsl ` — HLSL (High Level Shading Language)
+            - ` ```cg ` — NVIDIA CG
+            - ` ```shaderlab ` — Unity ShaderLab with embedded HLSL/CG
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          files: |
+            main.js
+            manifest.json
+            styles.css
