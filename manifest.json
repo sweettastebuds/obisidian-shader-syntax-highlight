@@ -1,0 +1,9 @@
+{
+  "id": "obsidian-shader-syntax-highlight",
+  "name": "Obsidian Shader Syntax Highlighting",
+  "version": "1.0.0",
+  "minAppVersion": "1.0.0",
+  "description": "Syntax highlighting for HLSL, CG, and ShaderLab (Unity) shader languages. Supports fenced code blocks in both editor and reading mode.",
+  "author": "Michael Fernandez",
+  "isDesktopOnly": false
+}

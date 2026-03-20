@@ -1,0 +1,79 @@
+/**
+ * Shader Syntax Highlighting — Token Colors
+ *
+ * Uses CSS custom properties for easy theming.
+ * All token classes use the "shader-" prefix to avoid conflicts.
+ *
+ * Override in a CSS snippet:
+ *   :root { --shader-keyword: #ff79c6; }
+ */
+
+/* ─── Dark theme (default) ─────────────────────────────────────────────────── */
+
+:root {
+  --shader-keyword: #c586c0;
+  --shader-type: #4ec9b0;
+  --shader-function: #dcdcaa;
+  --shader-semantic: #9cdcfe;
+  --shader-modifier: #569cd6;
+  --shader-meta: #c586c0;
+  --shader-atom: #b5cea8;
+  --shader-property: #d7ba7d;
+  --shader-comment: #6a9955;
+  --shader-string: #ce9178;
+  --shader-number: #b5cea8;
+  --shader-operator: #d4d4d4;
+  --shader-variable: #9cdcfe;
+}
+
+/* ─── Light theme ──────────────────────────────────────────────────────────── */
+
+.theme-light {
+  --shader-keyword: #af00db;
+  --shader-type: #267f99;
+  --shader-function: #795e26;
+  --shader-semantic: #001080;
+  --shader-modifier: #0000ff;
+  --shader-meta: #af00db;
+  --shader-atom: #098658;
+  --shader-property: #795e26;
+  --shader-comment: #008000;
+  --shader-string: #a31515;
+  --shader-number: #098658;
+  --shader-operator: #000000;
+  --shader-variable: #001080;
+}
+
+/* ─── Token classes (used by both editor and reading view) ─────────────────── */
+
+.shader-keyword   { color: var(--shader-keyword) !important; }
+.shader-type      { color: var(--shader-type) !important; }
+.shader-function  { color: var(--shader-function) !important; }
+.shader-semantic  { color: var(--shader-semantic) !important; font-style: italic; }
+.shader-modifier  { color: var(--shader-modifier) !important; }
+.shader-meta      { color: var(--shader-meta) !important; }
+.shader-atom      { color: var(--shader-atom) !important; }
+.shader-property  { color: var(--shader-property) !important; }
+.shader-comment   { color: var(--shader-comment) !important; font-style: italic; }
+.shader-string    { color: var(--shader-string) !important; }
+.shader-number    { color: var(--shader-number) !important; }
+.shader-operator  { color: var(--shader-operator) !important; }
+.shader-variable  { color: var(--shader-variable) !important; }
+
+/* ─── Reading view code block styling ──────────────────────────────────────── */
+
+pre.shader-highlight {
+  padding: 1em;
+  overflow-x: auto;
+  font-family: var(--font-monospace);
+  font-size: var(--font-smaller);
+  line-height: 1.5;
+  border-radius: var(--radius-s);
+  background-color: var(--code-background);
+}
+
+pre.shader-highlight code {
+  font-family: inherit;
+  font-size: inherit;
+  white-space: pre;
+}
